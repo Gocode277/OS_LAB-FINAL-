@@ -13,9 +13,13 @@ void worstFit(int blockSize[], int m, int processSize[], int n)
             if (blockSize[j] >= processSize[i])
             {
                 if (wstIdx == -1)
+                {
                     wstIdx = j;
+                }
                 else if (blockSize[wstIdx] < blockSize[j])
+                {
                     wstIdx = j;
+                }
             }
         }
 
@@ -26,10 +30,10 @@ void worstFit(int blockSize[], int m, int processSize[], int n)
         }
     }
 
-    printf("\nProcess No.\tProcess Size\tBlock no.\n");
+    printf("The memory allocation is as:\n");
     for (int i = 0; i < n; i++)
     {
-        printf("   %d\t\t%d\t\t", i + 1, processSize[i]);
+        printf("Process-%d:  %d  ", i + 1, processSize[i]);
         if (allocation[i] != -1)
             printf("%d", allocation[i] + 1);
         else
@@ -38,7 +42,7 @@ void worstFit(int blockSize[], int m, int processSize[], int n)
     }
 }
 
-int main()
+int main(void)
 {
     printf("Enter the number of blocks: ");
     int m;
@@ -57,6 +61,4 @@ int main()
         scanf("%d", &processSize[i]);
 
     worstFit(blockSize, m, processSize, n);
-
-    return 0;
 }
