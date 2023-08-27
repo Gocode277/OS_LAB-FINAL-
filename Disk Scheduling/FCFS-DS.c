@@ -18,7 +18,7 @@ void FCFS(int arr[], int head)
     }
 
     printf("Total number of seek operations: %d\n", seek_count);
-    printf("Seek Sequence is:\n");
+    printf("Seek Sequence is: ");
 
     for (int i = 0; i < size; i++)
     {
