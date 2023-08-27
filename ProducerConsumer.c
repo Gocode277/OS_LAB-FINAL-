@@ -23,7 +23,7 @@ void consumer()
     ++mutex;
 }
 
-int main()
+int main(void)
 {
     int choice;
     printf("\n1. Press 1 for Producer\n2. Press 2 for Consumer");
@@ -61,6 +61,4 @@ int main()
             exit(0);
         }
     }
-
-    return 0;
 }

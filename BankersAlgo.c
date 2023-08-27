@@ -1,107 +1,96 @@
 #include <stdio.h>
+#include <stdbool.h>
 
-int main()
+int main(void)
 {
-    int n, m;
-    int i, j;
-
     printf("Enter the number of processes and resources: ");
-    scanf("%d%d", &n, &m);
+    int n, m;
+    scanf("%d %d", &n, &m);
 
     int avail[m];
     printf("Enter the available resources: ");
-    for (i = 0; i < m; i++)
+    for (int i = 0; i < m; i++)
     {
         scanf("%d", &avail[i]);
     }
+
     int alloc[n][m];
-    printf("Enter the allocation matrix: ");
-    for (i = 0; i < n; i++)
+    printf("Enter the allocation matrix:\n");
+    for (int i = 0; i < n; i++)
     {
-        for (j = 0; j < m; j++)
+        for (int j = 0; j < m; j++)
         {
             scanf("%d", &alloc[i][j]);
         }
     }
+
     int max[n][m];
-    printf("Enter the max matrix: ");
-    for (i = 0; i < n; i++)
+    printf("Enter the maximum requirement matrix:\n");
+    for (int i = 0; i < n; i++)
     {
-        for (j = 0; j < m; j++)
+        for (int j = 0; j < m; j++)
         {
             scanf("%d", &max[i][j]);
         }
     }
 
-    int k;
-    int f[n], ans[n], ind = 0;
-
-    for (i = 0; i < n; i++)
+    bool completed[n];
+    for (int i = 0; i < n; i++)
     {
-        f[i] = 0;
+        completed[i] = false;
     }
 
     int need[n][m];
-    for (i = 0; i < n; i++)
+    for (int i = 0; i < n; i++)
     {
-        for (j = 0; j < m; j++)
+        for (int j = 0; j < m; j++)
         {
             need[i][j] = max[i][j] - alloc[i][j];
         }
     }
 
-    int y = 0;
-    for (k = 0; k < n; k++)
+    int seq[n], count = 0;
+    for (int k = 0; k < n; k++)
     {
-        for (i = 0; i < n; i++)
+        for (int i = 0; i < n; i++)
         {
-
-            if (f[i] == 0)
+            if (!completed[i])
             {
-                int flag = 0;
-                for (j = 0; j < m; j++)
+                bool flag = false;
+
+                for (int j = 0; j < m; j++)
                 {
                     if (need[i][j] > avail[j])
                     {
-                        flag = 1;
+                        flag = true;
                         break;
                     }
                 }
 
-                if (flag == 0)
+                if (!flag)
                 {
-                    ans[ind++] = i;
-                    for (y = 0; y < m; y++)
+                    seq[count++] = i;
+                    for (int j = 0; j < m; j++)
                     {
-                        avail[y] += alloc[i][y];
+                        avail[j] += alloc[i][j];
                     }
-                    f[i] = 1;
+                    completed[i] = true;
                 }
             }
         }
     }
 
-    int flag = 1;
-
-    for (i = 0; i < n; i++)
+    if (count == n)
     {
-        if (f[i] == 0)
+        printf("The following system is safe and can be scheduled as: ");
+        for (int i = 0; i < n - 1; i++)
         {
-            flag = 0;
-            printf("The following system is not safe");
-            break;
+            printf(" P%d ->", seq[i]);
         }
+        printf(" P%d\n", seq[n - 1]);
     }
-
-    if (flag == 1)
+    else
     {
-        printf("The following system is safe and can be scheduled as : ");
-        for (i = 0; i < n - 1; i++)
-        {
-            printf(" P%d ->", ans[i]);
-        }
-        printf(" P%d", ans[n - 1]);
+        printf("\nThe following system is not safe!");
     }
-
-    return (0);
 }

@@ -1,6 +1,6 @@
 #include <stdio.h>
 
-int main()
+int main(void)
 {
     int i, j, np, nr;
 
@@ -95,7 +95,7 @@ int main()
 
     if (deadlock)
     {
-        printf("\nDeadlock detected\n");
+        printf("\nDeadlock detected!\n");
     }
     else
     {

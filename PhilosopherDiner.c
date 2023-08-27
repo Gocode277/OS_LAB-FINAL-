@@ -29,7 +29,7 @@ void dine(philosopher_data *data)
     printf("\nPhilosopher %d Finished eating ", n + 1);
 }
 
-int main()
+int main(void)
 {
     int i, status_message;
     void *msg;
@@ -87,6 +87,4 @@ int main()
             exit(1);
         }
     }
-
-    return 0;
 }
