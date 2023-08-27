@@ -8,8 +8,21 @@ struct Process
     int art;
 };
 
-void findWaitingTime(struct Process proc[], int n, int wt[])
+int main()
 {
+    int n;
+    printf("Enter the number of processes: ");
+    scanf("%d", &n);
+    struct Process proc[n];
+
+    printf("Enter the burst times and arrival times of %d processes: ", n);
+    for (int i = 0; i < n; i++)
+    {
+        scanf("%d %d", &proc[i].bt, &proc[i].art);
+        proc[i].pid = i + 1;
+    }
+
+    int wt[n], tat[n], total_wt = 0, total_tat = 0;
     int rt[n];
     for (int i = 0; i < n; i++)
     {
@@ -58,21 +71,10 @@ void findWaitingTime(struct Process proc[], int n, int wt[])
         }
         t++;
     }
-}
-
-void findTurnAroundTime(struct Process proc[], int n, int wt[], int tat[])
-{
     for (int i = 0; i < n; i++)
     {
         tat[i] = proc[i].bt + wt[i];
     }
-}
-
-void findavgTime(struct Process proc[], int n)
-{
-    int wt[n], tat[n], total_wt = 0, total_tat = 0;
-    findWaitingTime(proc, n, wt);
-    findTurnAroundTime(proc, n, wt, tat);
     printf("Processes\tBurst time\tWaiting time\tTurn around time\n");
 
     for (int i = 0; i < n; i++)
@@ -84,22 +86,5 @@ void findavgTime(struct Process proc[], int n)
 
     printf("Average waiting time = %f", (float)total_wt / (float)n);
     printf("\nAverage turn around time = %f", (float)total_tat / (float)n);
-}
-
-int main()
-{
-    int n;
-    printf("Enter the number of processes: ");
-    scanf("%d", &n);
-    struct Process proc[n];
-
-    printf("Enter the burst times and arrival times of %d processes: ", n);
-    for (int i = 0; i < n; i++)
-    {
-        scanf("%d %d", &proc[i].bt, &proc[i].art);
-        proc[i].pid = i + 1;
-    }
-
-    findavgTime(proc, n);
     return 0;
 }

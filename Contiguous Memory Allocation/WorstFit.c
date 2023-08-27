@@ -12,6 +12,7 @@ void worstFit(int blockSize[], int m, int processSize[], int n)
     for (int i = 0; i < n; i++)
     {
         int wstIdx = -1;
+        
         for (int j = 0; j < m; j++)
         {
             if (blockSize[j] >= processSize[i])

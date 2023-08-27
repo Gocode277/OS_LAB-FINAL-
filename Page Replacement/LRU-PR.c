@@ -17,32 +17,35 @@ int findLRU(int time[], int n)
 
 int main(void)
 {
-    int no_of_frames, no_of_pages, counter = 0, flag1, flag2, i, j, pos, faults = 0;
     printf("Enter number of frames: ");
+    int no_of_frames;
     scanf("%d", &no_of_frames);
-    int frames[no_of_frames];
 
     printf("Enter number of pages: ");
+    int no_of_pages;
     scanf("%d", &no_of_pages);
-    int pages[no_of_pages];
 
-    int time[no_of_frames];
-    printf("Enter reference string: ");
-    for (i = 0; i < no_of_pages; ++i)
+    printf("Enter page sequence: ");
+    int pages[no_of_pages];
+    for (int i = 0; i < no_of_pages; ++i)
     {
         scanf("%d", &pages[i]);
     }
 
-    for (i = 0; i < no_of_frames; ++i)
+    int frames[no_of_frames];
+    for (int i = 0; i < no_of_frames; ++i)
     {
         frames[i] = -1;
     }
 
-    for (i = 0; i < no_of_pages; ++i)
+    printf("\nLRU page replacement process:\n");
+
+    int counter = 0, flag1, flag2, pos, faults = 0, time[no_of_frames];
+    for (int i = 0; i < no_of_pages; ++i)
     {
         flag1 = flag2 = 0;
 
-        for (j = 0; j < no_of_frames; ++j)
+        for (int j = 0; j < no_of_frames; ++j)
         {
             if (frames[j] == pages[i])
             {
@@ -55,7 +58,7 @@ int main(void)
 
         if (flag1 == 0)
         {
-            for (j = 0; j < no_of_frames; ++j)
+            for (int j = 0; j < no_of_frames; ++j)
             {
                 if (frames[j] == -1)
                 {
@@ -77,19 +80,20 @@ int main(void)
             frames[pos] = pages[i];
             time[pos] = counter;
         }
-        printf("\n");
 
-        for (j = 0; j < no_of_frames; ++j)
+        for (int j = 0; j < no_of_frames; ++j)
         {
             if (frames[j] == -1)
             {
-                printf("-\t");
+                printf("- ");
             }
             else
             {
-                printf("%d\t", frames[j]);
+                printf("%d ", frames[j]);
             }
         }
+        printf("\n");
     }
-    printf("\n\nTotal Page Faults = %d", faults);
+
+    printf("\nTotal page faults: %d", faults);
 }

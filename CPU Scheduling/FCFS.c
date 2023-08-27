@@ -2,20 +2,21 @@
 
 int main()
 {
-    int n, i;
     printf("Enter the number of processes: ");
+    int n;
     scanf("%d", &n);
-    float bt[n], wt[n], tt[n];
 
     printf("Enter the burst times of %d processes: ", n);
-    for (i = 0; i < n; i++)
+    int bt[n];
+    for (int i = 0; i < n; i++)
     {
-        scanf("%f", &bt[i]);
+        scanf("%d", &bt[i]);
     }
 
-    printf("\nThe details of the processes are as below:\nProcess\tBurst Time\tTurn Around Time\tWaiting Time\n");
+    printf("\nThe FCFS cpu scheduling is as:\n");
     float waitingTime = 0, turnAroundTime = 0;
-    for (i = 0; i < n; i++)
+    int wt[n], tt[n];
+    for (int i = 0; i < n; i++)
     {
         if (i == 0)
         {
@@ -26,13 +27,13 @@ int main()
             wt[i] = bt[i - 1] + wt[i - 1];
         }
         tt[i] = bt[i] + wt[i];
-        printf("%d\t%f\t%f\t%f\n", i + 1, bt[i], tt[i], wt[i]);
+        printf("Process-%d:    Burst time-%d  Turnaround time-%d  Waiting time-%d\n", i + 1, bt[i], tt[i], wt[i]);
         waitingTime += wt[i];
         turnAroundTime += tt[i];
     }
 
-    printf("The average waiting time is: %f", waitingTime / (float)n);
-    printf("\nThe average turn around time is: %f", turnAroundTime / n);
+    printf("\nThe average waiting time is: %0.2f", waitingTime / n);
+    printf("\nThe average turn around time is: %0.2f", turnAroundTime / n);
 
     return 0;
 }

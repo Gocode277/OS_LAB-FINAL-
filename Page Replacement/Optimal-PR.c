@@ -2,32 +2,35 @@
 
 int main(void)
 {
-    int no_of_frames, no_of_pages, temp[10], flag1, flag2, flag3, i, j, k, pos, max, faults = 0;
     printf("Enter number of frames: ");
+    int no_of_frames;
     scanf("%d", &no_of_frames);
-    int frames[no_of_frames];
 
     printf("Enter number of pages: ");
+    int no_of_pages;
     scanf("%d", &no_of_pages);
+
+    printf("Enter page sequence: ");
     int pages[no_of_pages];
-
-    printf("Enter page reference string: ");
-
-    for (i = 0; i < no_of_pages; ++i)
+    for (int i = 0; i < no_of_pages; ++i)
     {
         scanf("%d", &pages[i]);
     }
 
-    for (i = 0; i < no_of_frames; ++i)
+    int frames[no_of_frames];
+    for (int i = 0; i < no_of_frames; ++i)
     {
         frames[i] = -1;
     }
 
-    for (i = 0; i < no_of_pages; ++i)
+    printf("\nOptimal page replacement process:\n");
+
+    int temp[no_of_frames], flag1, flag2, flag3, pos, max, faults = 0;
+    for (int i = 0; i < no_of_pages; ++i)
     {
         flag1 = flag2 = 0;
 
-        for (j = 0; j < no_of_frames; ++j)
+        for (int j = 0; j < no_of_frames; ++j)
         {
             if (frames[j] == pages[i])
             {
@@ -38,7 +41,7 @@ int main(void)
 
         if (flag1 == 0)
         {
-            for (j = 0; j < no_of_frames; ++j)
+            for (int j = 0; j < no_of_frames; ++j)
             {
                 if (frames[j] == -1)
                 {
@@ -54,11 +57,11 @@ int main(void)
         {
             flag3 = 0;
 
-            for (j = 0; j < no_of_frames; ++j)
+            for (int j = 0; j < no_of_frames; ++j)
             {
                 temp[j] = -1;
 
-                for (k = i + 1; k < no_of_pages; ++k)
+                for (int k = i + 1; k < no_of_pages; ++k)
                 {
                     if (frames[j] == pages[k])
                     {
@@ -68,7 +71,7 @@ int main(void)
                 }
             }
 
-            for (j = 0; j < no_of_frames; ++j)
+            for (int j = 0; j < no_of_frames; ++j)
             {
                 if (temp[j] == -1)
                 {
@@ -83,7 +86,7 @@ int main(void)
                 max = temp[0];
                 pos = 0;
 
-                for (j = 1; j < no_of_frames; ++j)
+                for (int j = 1; j < no_of_frames; ++j)
                 {
                     if (temp[j] > max)
                     {
@@ -96,16 +99,19 @@ int main(void)
             faults++;
         }
 
-        printf("\n");
-
-        for (j = 0; j < no_of_frames; ++j)
+        for (int j = 0; j < no_of_frames; j++)
         {
-            if (frames[j] == -1)
-                printf("-\t");
+            if (frames[j] != -1)
+            {
+                printf("%d ", frames[j]);
+            }
             else
-                printf("%d\t", frames[j]);
+            {
+                printf("- ");
+            }
         }
+        printf("\n");
     }
 
-    printf("\n\nTotal Page Faults = %d", faults);
+    printf("\nTotal page faults: %d", faults);
 }
