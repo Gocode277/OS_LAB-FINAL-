@@ -1,104 +1,90 @@
 #include <stdio.h>
+#include <stdbool.h>
 
 int main(void)
 {
-    int i, j, np, nr;
+    printf("Enter the number of processes and resources: ");
+    int n, m;
+    scanf("%d %d", &n, &m);
 
-    printf("Enter the number of the process and resources: ");
-    scanf("%d%d", &np, &nr);
-    int alloc[np][nr], request[np][nr], avail[nr], r[nr], w[nr], mark[np];
-
-    printf("Enter the total amount of each resource available: ");
-    for (i = 0; i < nr; i++)
+    int avail[m];
+    printf("Enter the available resources: ");
+    for (int i = 0; i < m; i++)
     {
-        scanf("%d", &r[i]);
-        avail[j] = r[j];
+        scanf("%d", &avail[i]);
     }
 
-    printf("Enter the request matrix:\n");
-    for (i = 0; i < np; i++)
-    {
-        for (j = 0; j < nr; j++)
-        {
-            scanf("%d", &request[i][j]);
-        }
-    }
-
+    int alloc[n][m];
     printf("Enter the allocation matrix:\n");
-    for (i = 0; i < np; i++)
+    for (int i = 0; i < n; i++)
     {
-        for (j = 0; j < nr; j++)
+        for (int j = 0; j < m; j++)
         {
             scanf("%d", &alloc[i][j]);
             avail[j] -= alloc[i][j];
-            w[j] = avail[j];
         }
     }
 
-    for (i = 0; i < np; i++)
+    int req[n][m];
+    printf("Enter the request matrix:\n");
+    for (int i = 0; i < n; i++)
     {
-        int count = 0;
-        for (j = 0; j < nr; j++)
+        for (int j = 0; j < m; j++)
         {
-            if (alloc[i][j] == 0)
-            {
-                count++;
-            }
-            else
-            {
-                break;
-            }
-        }
-        if (count == nr)
-        {
-            mark[i] = 1;
+            scanf("%d", &req[i][j]);
         }
     }
 
-    for (i = 0; i < np; i++)
+    bool completed[n];
+    for (int i = 0; i < n; i++)
     {
-        int canbeprocessed = 0;
-        if (mark[i] != 1)
+        completed[i] = false;
+    }
+
+    int count = 0;
+    while (count < n)
+    {
+        bool safe = false;
+        for (int i = 0; i < n; i++)
         {
-            for (j = 0; j < nr; j++)
+            if (!completed[i])
             {
-                if (request[i][j] <= w[j])
+                bool canExecute = true;
+                for (int j = 0; j < m; j++)
                 {
-                    canbeprocessed = 1;
+                    if (req[i][j] > avail[j])
+                    {
+                        canExecute = false;
+                        break;
+                    }
                 }
-                else
+
+                if (canExecute)
                 {
-                    canbeprocessed = 0;
+                    for (int j = 0; j < m; j++)
+                    {
+                        avail[j] += alloc[i][j];
+                    }
+                    completed[i] = true;
+                    safe = true;
+                    count++;
                     break;
                 }
             }
-            if (canbeprocessed)
-            {
-                mark[i] = 1;
-
-                for (j = 0; j < nr; j++)
-                {
-                    w[j] += alloc[i][j];
-                }
-            }
         }
-    }
 
-    int deadlock = 0;
-    for (i = 0; i < np; i++)
-    {
-        if (mark[i] != 1)
+        if (!safe)
         {
-            deadlock = 1;
+            break;
         }
     }
 
-    if (deadlock)
+    if (count == n)
     {
-        printf("\nDeadlock detected!\n");
+        printf("\nThe following system is safe!");
     }
     else
     {
-        printf("\nNo Deadlock detected\n");
+        printf("\nThe following system is not safe!");
     }
 }
